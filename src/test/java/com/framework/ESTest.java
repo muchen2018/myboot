@@ -3,7 +3,9 @@ package com.framework;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -17,7 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.xml.sax.SAXException;
 
-import com.framework.common.fulltext.ElasticsearchUtils;
+import com.framework.common.fulltext.ElasticSearchHandler;
 import com.framework.common.fulltext.attachment.Attachment;
 import com.framework.common.fulltext.attachment.AttachmentProcessor;
 import com.framework.modules.fulltext.DiskDoc;
@@ -50,7 +52,7 @@ public class ESTest {
 		in.close();
 		
 		String json=JSON.toJSONString(file);
-		ElasticsearchUtils.addData(json,"myindex", "file", id,"single_attachment");
+		ElasticSearchHandler.addData(json,"myindex", "file", id,"single_attachment");
 		*/
 		
 		AttachmentProcessor processor=new AttachmentProcessor();
@@ -59,7 +61,21 @@ public class ESTest {
 		
 		template.setAttachment(att);
 		
-		ElasticsearchUtils.addData("myindex", "file",template);
+		ElasticSearchHandler.addDoc(ElasticSearchHandler.DEFAULT_INDEX,ElasticSearchHandler.DEFAULT_TYPE,template);
+	}
+	
+	@Test
+	public void addDocBulk() {
+		
+		List<DiskDoc> list=new ArrayList<>();
+		
+		for(int i=0;i<=10;i++) {
+			DiskDoc doc=new DiskDoc();
+			doc.setName("i:"+i);
+			list.add(doc);
+		}
+		
+		ElasticSearchHandler.addDocBulk(ElasticSearchHandler.DEFAULT_INDEX,ElasticSearchHandler.DEFAULT_TYPE, list);
 	}
 	
 	@Test
@@ -74,9 +90,9 @@ public class ESTest {
 					+ "\"hot\":{\"type\":\"double\",\"index\":\"not_analyzed\"},"
 					+ "\"crdate\":{\"type\":\"double\",\"index\":\"not_analyzed\"}}}}";
 			
-		String file="{\"file\":{\"_source\":{\"excludes\":[\"attachment.content\"]},\"properties\":{\"name\":{\"type\":\"text\",\"analyzer\":\"ik_max_word\",\"search_analyzer\":\"ik_smart\"},\"id\":{\"type\":\"keyword\"},\"userId\":{\"type\":\"keyword\"},\"url\":{\"type\":\"keyword\"},\"path\":{\"type\":\"keyword\"},\"attachment.content\":{\"type\":\"text\",\"analyzer\":\"ik_max_word\",\"search_analyzer\":\"ik_smart\"},\"attachment.keywords\":{\"type\":\"text\",\"analyzer\":\"ik_max_word\",\"search_analyzer\":\"ik_smart\"},\"attachment.contentType\":{\"type\":\"keyword\"},\"attachment.author\":{\"type\":\"keyword\"},\"attachment.lastAuthor\":{\"type\":\"keyword\"},\"attachment.creationDate\":{\"type\":\"date\"},\"attachment.lastModifiedDate\":{\"type\":\"date\"}}}}";
+		String file="{\""+ElasticSearchHandler.DEFAULT_TYPE+"\":{\"_source\":{\"excludes\":[\"attachment.content\"]},\"properties\":{\"name\":{\"type\":\"text\",\"analyzer\":\"ik_max_word\",\"search_analyzer\":\"ik_smart\"},\"id\":{\"type\":\"keyword\"},\"userId\":{\"type\":\"keyword\"},\"url\":{\"type\":\"keyword\"},\"path\":{\"type\":\"keyword\"},\"attachment.content\":{\"type\":\"text\",\"analyzer\":\"ik_max_word\",\"search_analyzer\":\"ik_smart\"},\"attachment.keywords\":{\"type\":\"text\",\"analyzer\":\"ik_max_word\",\"search_analyzer\":\"ik_smart\"},\"attachment.contentType\":{\"type\":\"keyword\"},\"attachment.author\":{\"type\":\"keyword\"},\"attachment.lastAuthor\":{\"type\":\"keyword\"},\"attachment.creationDate\":{\"type\":\"date\"},\"attachment.lastModifiedDate\":{\"type\":\"date\"}}}}";
 		
-		ElasticsearchUtils.createMappingSource("myindex", "file", file);
+		ElasticSearchHandler.createMappingSource(ElasticSearchHandler.DEFAULT_INDEX,ElasticSearchHandler.DEFAULT_TYPE, file);
 	}
 	
 	/**
@@ -112,7 +128,7 @@ public class ESTest {
 		Map <String,Object> map=new HashMap<>(4);
 		map.put("keyword", "zhaoxl");
 		map.put("id", "9ab3b9f9-33ce-455a-bf97-3d273d0f5e3f");
-		SearchHits hits=ElasticsearchUtils.queryByTemplate("myindex", "file", template_str,map);
+		SearchHits hits=ElasticSearchHandler.queryByTemplate(ElasticSearchHandler.DEFAULT_INDEX,ElasticSearchHandler.DEFAULT_TYPE, template_str,map);
 		
 		hits.forEach(hit->System.out.println(hit.getSourceAsMap()));
 		
@@ -124,7 +140,7 @@ public class ESTest {
 		
 		String queryStr="{\"bool\":{\"must\":[{\"term\":{\"id\":\"9ab3b9f9-33ce-455a-bf97-3d273d0f5e3f\"}},{\"multi_match\":{\"query\":\"zhaoxl\",\"fields\":[\"attachment.author\",\"attachment.lastAuthor\"]}}]}}";
 		
-		SearchHits hits=ElasticsearchUtils.queryByJson("myindex", "file", queryStr);
+		SearchHits hits=ElasticSearchHandler.queryByJson(ElasticSearchHandler.DEFAULT_INDEX,ElasticSearchHandler.DEFAULT_TYPE, queryStr);
 		
 		System.out.println(hits.totalHits);
 		
@@ -143,7 +159,7 @@ public class ESTest {
 		
 		ssb.fetchSource(in, null);
 		
-		SearchHits hits=ElasticsearchUtils.queryBySearchSourceBuilder("myindex", "file", ssb);
+		SearchHits hits=ElasticSearchHandler.queryBySearchSourceBuilder(ElasticSearchHandler.DEFAULT_INDEX,ElasticSearchHandler.DEFAULT_TYPE, ssb);
 		
 		hits.forEach(hit->System.out.println(hit.getSourceAsMap()));
 		

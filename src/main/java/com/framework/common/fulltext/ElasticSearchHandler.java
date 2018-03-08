@@ -39,9 +39,13 @@ import org.springframework.stereotype.Component;
 import com.alibaba.fastjson.JSON;
 
 @Component
-public class ElasticsearchUtils {
+public class ElasticSearchHandler {
+	
+	public static final String DEFAULT_INDEX="myindex";
+	
+	public static final String DEFAULT_TYPE="commonType";
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ElasticsearchUtils.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ElasticSearchHandler.class);
 
 	@Autowired
 	private TransportClient transportClient;
@@ -129,7 +133,7 @@ public class ElasticsearchUtils {
 	 * @param id 数据ID
 	 * @return
 	 */
-	public static String addData(String index, String type,BaseDoc doc) {
+	public static String addDoc(String index, String type,BaseDoc doc) {
 
 		IndexResponse response = client.prepareIndex(index, type, doc.getId()).setSource(JSON.toJSONString(doc), XContentType.JSON).get();
 
@@ -143,7 +147,7 @@ public class ElasticsearchUtils {
 	 * @param list
 	 * @return
 	 */
-	public static BulkResponse addDataBulk(String index, String type,List<? extends BaseDoc> list) {
+	public static BulkResponse addDocBulk(String index, String type,List<? extends BaseDoc> list) {
 		
 		BulkRequestBuilder bulkRequest =client.prepareBulk();
 		

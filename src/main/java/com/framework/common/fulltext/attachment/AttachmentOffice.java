@@ -1,5 +1,10 @@
 package com.framework.common.fulltext.attachment;
 
+/**
+ * 针对office
+ * 
+ * @author yuan
+ */
 public class AttachmentOffice extends AttachmentExt{
 
 	private long pageCount;

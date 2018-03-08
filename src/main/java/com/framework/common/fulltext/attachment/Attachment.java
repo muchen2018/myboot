@@ -1,5 +1,10 @@
 package com.framework.common.fulltext.attachment;
 
+/**
+ * @author yuan
+ *
+ * @param <T>
+ */
 public class Attachment<T extends AttachmentExt> {
 
 	private String name;

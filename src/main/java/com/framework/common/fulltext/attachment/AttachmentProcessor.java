@@ -21,6 +21,10 @@ import org.xml.sax.SAXException;
 
 import com.alibaba.fastjson.JSON;
 
+/**
+ * 文件内容提取工具类  
+ * @author yuan
+ */
 public class AttachmentProcessor {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
