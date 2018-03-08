@@ -69,9 +69,9 @@ public class ESTest {
 		
 		List<DiskDoc> list=new ArrayList<>();
 		
-		for(int i=0;i<=10;i++) {
+		for(int i=0;i<10;i++) {
 			DiskDoc doc=new DiskDoc();
-			doc.setName("i:"+i);
+			doc.setName("批量:"+i);
 			list.add(doc);
 		}
 		

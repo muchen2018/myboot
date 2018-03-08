@@ -59,11 +59,10 @@ public class ElasticSearchHandler {
 
 	/**
 	 * 创建索引
-	 *
 	 * @param index
 	 * @return
 	 */
-	public static boolean createIndex(String index) {
+	private static boolean createIndex(String index) {
 		if (!isIndexExist(index)) {
 			CreateIndexResponse indexresponse = client.admin().indices().prepareCreate(index).execute().actionGet();
 			LOGGER.info("执行建立成功？" + indexresponse.isAcknowledged());
