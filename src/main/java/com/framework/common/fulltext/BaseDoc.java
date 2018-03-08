@@ -3,6 +3,7 @@ package com.framework.common.fulltext;
 import java.util.UUID;
 
 /**
+ * 基础 document 模型
  * @author yuan
  */
 public class BaseDoc {
