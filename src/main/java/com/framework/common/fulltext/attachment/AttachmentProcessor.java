@@ -1,4 +1,4 @@
-package com.framework.modules.fulltext.attachment;
+package com.framework.common.fulltext.attachment;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,9 +25,9 @@ public class AttachmentProcessor {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	public Attachment parse(InputStream is) throws Exception, SAXException, TikaException {
+	public Attachment<? extends AttachmentExt> parse(InputStream is) throws Exception, SAXException, TikaException {
 
-		Attachment att = new Attachment();
+		Attachment<? extends AttachmentExt> att = null;
 
 		Parser parser = new AutoDetectParser();
 		Metadata metadata = new Metadata();
@@ -38,26 +38,26 @@ public class AttachmentProcessor {
 		parser.parse(is, handler, metadata, context);
 
 		String contentType = metadata.get(HttpHeaders.CONTENT_TYPE);
-		att.setContent(contentType);
+		
 
 		if (!StringUtils.isBlank(contentType) && contentType.indexOf("image") != -1) {
-			AttachmentImage image = new AttachmentImage();
+			
+			AttachmentImage image=new AttachmentImage();
 			image.setHeight(Long.valueOf(metadata.get(Metadata.IMAGE_LENGTH)));
 			image.setWidth(Long.valueOf(metadata.get(Metadata.IMAGE_WIDTH)));
-			att.setImage(image);
+			att  = new Attachment<AttachmentImage>(image);
 		} else if (!StringUtils.isBlank(contentType) && contentType.indexOf("officedocument") != -1) {
 
 			AttachmentOffice office=new AttachmentOffice();
-			
 			String pageCount = metadata.get(Office.PAGE_COUNT);
 			if (pageCount == null) {
 				pageCount = metadata.get(Office.SLIDE_COUNT);
 			}
 			office.setPageCount(Long.valueOf(pageCount));
 			office.setWordCount(Long.valueOf(metadata.get(Office.WORD_COUNT)));
-			att.setOffice(office);
+			att  = new Attachment<AttachmentOffice>(office);
 		}
-
+		att.setContent(contentType);
 		// 内容
 		att.setContent(handler.toString().trim());
 		// 创建日期
@@ -105,7 +105,7 @@ public class AttachmentProcessor {
 
 		FileInputStream in = new FileInputStream(file);
 
-		Attachment att = tika.parse(in);
+		Attachment<? extends AttachmentExt> att = tika.parse(in);
 
 		System.out.println(JSON.toJSONString(att));
 	}

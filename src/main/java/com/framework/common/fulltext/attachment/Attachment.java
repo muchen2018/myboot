@@ -1,6 +1,6 @@
-package com.framework.modules.fulltext.attachment;
+package com.framework.common.fulltext.attachment;
 
-public class Attachment {
+public class Attachment<T extends AttachmentExt> {
 
 	private String name;
 	
@@ -22,9 +22,11 @@ public class Attachment {
 	
 	private String lastModifiedDate;
 	
-	private AttachmentImage image;
+	private T ext;
 	
-	private AttachmentOffice office;
+	public Attachment(T ext){
+		this.ext=ext;
+	}
 
 	public String getName() {
 		return name;
@@ -106,19 +108,11 @@ public class Attachment {
 		this.lastModifiedDate = lastModifiedDate;
 	}
 
-	public AttachmentImage getImage() {
-		return image;
+	public T getExt() {
+		return ext;
 	}
 
-	public void setImage(AttachmentImage image) {
-		this.image = image;
-	}
-
-	public AttachmentOffice getOffice() {
-		return office;
-	}
-
-	public void setOffice(AttachmentOffice office) {
-		this.office = office;
+	public void setExt(T ext) {
+		this.ext = ext;
 	}
 }

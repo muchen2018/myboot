@@ -1,6 +1,6 @@
-package com.framework.modules.fulltext.attachment;
+package com.framework.common.fulltext.attachment;
 
-public class AttachmentImage{
+public class AttachmentImage extends AttachmentExt{
 
 	private long width;
 	

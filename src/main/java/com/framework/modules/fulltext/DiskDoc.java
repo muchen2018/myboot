@@ -1,10 +1,10 @@
 package com.framework.modules.fulltext;
 
-import com.framework.modules.fulltext.attachment.Attachment;
+import com.framework.common.fulltext.BaseDoc;
+import com.framework.common.fulltext.attachment.Attachment;
+import com.framework.common.fulltext.attachment.AttachmentExt;
 
-public class ESData {
-	
-	private String id;
+public class DiskDoc extends BaseDoc{
 	
 	private String url;
 	
@@ -14,15 +14,7 @@ public class ESData {
 	
 	private String path;
 	
-	private Attachment attachment;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
+	private Attachment<? extends AttachmentExt> attachment;
 
 	public String getUrl() {
 		return url;
@@ -56,11 +48,11 @@ public class ESData {
 		this.path = path;
 	}
 
-	public Attachment getAttachment() {
+	public Attachment<? extends AttachmentExt> getAttachment() {
 		return attachment;
 	}
 	
-	public void setAttachment(Attachment attachment) {
+	public void setAttachment(Attachment<? extends AttachmentExt> attachment) {
 		this.attachment = attachment;
 	}
 }

@@ -8,10 +8,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.apache.tika.exception.TikaException;
-import org.elasticsearch.action.search.SearchRequestBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.junit.Test;
@@ -20,11 +17,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.xml.sax.SAXException;
 
-import com.alibaba.fastjson.JSON;
-import com.framework.modules.fulltext.ESData;
-import com.framework.modules.fulltext.ElasticsearchUtils;
-import com.framework.modules.fulltext.attachment.Attachment;
-import com.framework.modules.fulltext.attachment.AttachmentProcessor;
+import com.framework.common.fulltext.ElasticsearchUtils;
+import com.framework.common.fulltext.attachment.Attachment;
+import com.framework.common.fulltext.attachment.AttachmentProcessor;
+import com.framework.modules.fulltext.DiskDoc;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -34,14 +30,14 @@ public class ESTest {
 	public void addDoc() throws SAXException, TikaException, Exception {
 		
 		String id=UUID.randomUUID().toString();
-		ESData template=new ESData();
+		DiskDoc template=new DiskDoc();
 		
 		template.setId(id);
-		template.setName("1.png");
+		template.setName("11.png");
 		template.setUrl("group1/M00/xxx/xxx2");
 		template.setPath("我的文档/我的测试文档");
 		
-		File f=new File("C:\\Users\\26371\\Desktop\\苏州工业园区政务通技术架构管理及应用插件开发规范总则V2.0.docx");
+		File f=new File("C:\\Users\\26371\\Desktop\\1.png");
 		
 		FileInputStream in=new FileInputStream(f);
 		
@@ -63,7 +59,7 @@ public class ESTest {
 		
 		template.setAttachment(att);
 		
-		ElasticsearchUtils.addData("myindex", "file",UUID.randomUUID().toString(),JSON.toJSONString(template));
+		ElasticsearchUtils.addData("myindex", "file",template);
 	}
 	
 	@Test

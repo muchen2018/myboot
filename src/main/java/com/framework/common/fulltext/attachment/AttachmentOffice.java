@@ -1,6 +1,6 @@
-package com.framework.modules.fulltext.attachment;
+package com.framework.common.fulltext.attachment;
 
-public class AttachmentOffice{
+public class AttachmentOffice extends AttachmentExt{
 
 	private long pageCount;
 	

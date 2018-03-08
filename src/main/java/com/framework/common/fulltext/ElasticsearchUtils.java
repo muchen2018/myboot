@@ -1,4 +1,4 @@
-package com.framework.modules.fulltext;
+package com.framework.common.fulltext;
 
 import java.util.List;
 import java.util.Map;
@@ -129,9 +129,9 @@ public class ElasticsearchUtils {
 	 * @param id 数据ID
 	 * @return
 	 */
-	public static String addData(String index, String type, String id,String json) {
+	public static String addData(String index, String type,BaseDoc doc) {
 
-		IndexResponse response = client.prepareIndex(index, type, id).setSource(json, XContentType.JSON).get();
+		IndexResponse response = client.prepareIndex(index, type, doc.getId()).setSource(JSON.toJSONString(doc), XContentType.JSON).get();
 
 		return response.getId();
 	}
@@ -143,7 +143,7 @@ public class ElasticsearchUtils {
 	 * @param list
 	 * @return
 	 */
-	public static BulkResponse addDataBulk(String index, String type,List<? extends ESData> list) {
+	public static BulkResponse addDataBulk(String index, String type,List<? extends BaseDoc> list) {
 		
 		BulkRequestBuilder bulkRequest =client.prepareBulk();
 		
