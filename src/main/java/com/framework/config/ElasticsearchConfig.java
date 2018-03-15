@@ -1,6 +1,7 @@
 package com.framework.config;
 
 import java.net.InetAddress;
+import java.util.concurrent.Executor;
 
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 /**
  * 全文检索配置
@@ -67,4 +69,15 @@ public class ElasticsearchConfig {
         }
         return transportClient;
     }
+    
+    @Bean
+    public Executor getAsyncExecutor() {
+         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
+            taskExecutor.setCorePoolSize(5);
+            taskExecutor.setMaxPoolSize(10);
+            taskExecutor.setQueueCapacity(25);
+            taskExecutor.initialize();
+            return taskExecutor;
+    }
+
 }

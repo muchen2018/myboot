@@ -50,9 +50,9 @@ public class Sender implements RabbitTemplate.ConfirmCallback, ReturnCallback{
         CorrelationData correlationId = new CorrelationData(UUID.randomUUID().toString());
         
         logger.info("开始发送消息 :{} ",msg);
-        String response = template.convertSendAndReceive(exchangName,routingKey, msg, correlationId).toString();
-        logger.info("结束发送消息 :{} ");
-        logger.info("消费者响应 : {}",response);
+        //String response = template.convertSendAndReceive(exchangName,routingKey, msg, correlationId).toString();
+        template.convertAndSend(exchangName,routingKey, msg, correlationId);
+        logger.info("结束发送消息 :{}",msg);
     }
 
 }
