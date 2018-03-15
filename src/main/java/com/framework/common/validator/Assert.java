@@ -6,9 +6,6 @@ import com.framework.common.exception.CommonException;
 
 /**
  * 数据校验
- 
- 
- * @date 2017-03-23 15:50
  */
 public abstract class Assert {
 
