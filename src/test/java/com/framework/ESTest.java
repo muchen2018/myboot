@@ -55,9 +55,7 @@ public class ESTest {
 		ElasticSearchHandler.addData(json,"myindex", "file", id,"single_attachment");
 		*/
 		
-		AttachmentProcessor processor=new AttachmentProcessor();
-		
-		Attachment att =processor.parse(in);
+		Attachment att =AttachmentProcessor.parse(in);
 		
 		template.setAttachment(att);
 		

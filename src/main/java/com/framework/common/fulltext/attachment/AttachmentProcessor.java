@@ -26,10 +26,14 @@ import com.alibaba.fastjson.JSON;
  * @author yuan
  */
 public class AttachmentProcessor {
+	
+	private AttachmentProcessor() {
+		
+	}
 
-	private Logger logger = LoggerFactory.getLogger(getClass());
+	private static Logger logger = LoggerFactory.getLogger(AttachmentProcessor.class);
 
-	public Attachment<? extends AttachmentExt> parse(InputStream is) throws Exception, SAXException, TikaException {
+	public static Attachment<? extends AttachmentExt> parse(InputStream is) throws Exception, SAXException, TikaException {
 
 		Attachment<? extends AttachmentExt> att = null;
 
@@ -105,13 +109,11 @@ public class AttachmentProcessor {
 
 	public static void main(String[] a) throws SAXException, TikaException, Exception {
 
-		AttachmentProcessor tika = new AttachmentProcessor();
-
 		File file = new File("C:\\Users\\26371\\Desktop\\29所\\29所系统意见.pptx");
 
 		FileInputStream in = new FileInputStream(file);
 
-		Attachment<? extends AttachmentExt> att = tika.parse(in);
+		Attachment<? extends AttachmentExt> att = AttachmentProcessor.parse(in);
 
 		System.out.println(JSON.toJSONString(att));
 	}

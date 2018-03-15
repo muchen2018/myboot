@@ -4,18 +4,17 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.format.datetime.joda.LocalDateTimeParser;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.framework.config.RabbitConfig;
 import com.framework.modules.mq.Sender;
-
-import thredds.cataloggen.config.LocalDatasetSource;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -36,17 +35,23 @@ public class MqTest {
 		}
 	}
 
-	public static void main(String[] a) {
+	public static void main(String[] aa) {
 
 		System.out.println(Instant.now().atZone(ZoneOffset.ofHours(8)));
 
 		LocalDateTime now = LocalDateTime.now();
-		
+
 		System.out.println(now);
-		
-		DateTimeFormatter f=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		
+
+		DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
 		System.out.println(f.format(now));
-		
+
+		List<String> a = new ArrayList<String>();
+		a.add("1");
+		a.add("2");
+	
+		a.forEach(e->{System.out.println(e);});
+
 	}
 }
