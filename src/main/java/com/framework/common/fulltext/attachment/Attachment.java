@@ -29,6 +29,10 @@ public class Attachment<T extends AttachmentExt> {
 	
 	private T ext;
 	
+	public Attachment(){
+		
+	}
+	
 	public Attachment(T ext){
 		this.ext=ext;
 	}

@@ -39,7 +39,7 @@ public class ESTest {
 		template.setUrl("group1/M00/xxx/xxx2");
 		template.setPath("我的文档/我的测试文档");
 		
-		File f=new File("C:\\Users\\26371\\Desktop\\1.png");
+		File f=new File("C:\\Users\\26371\\Desktop\\Spring Cloud微服务实战_PDF电子书下载 高清 带索引书签目录_翟永超(著)  @www.java1234.com.pdf");
 		
 		FileInputStream in=new FileInputStream(f);
 		

@@ -60,6 +60,8 @@ public class AttachmentProcessor {
 			office.setPageCount(Long.valueOf(pageCount));
 			office.setWordCount(Long.valueOf(metadata.get(Office.WORD_COUNT)));
 			att  = new Attachment<AttachmentOffice>(office);
+		}else {
+			att=new Attachment<>();
 		}
 		att.setContent(contentType);
 		// 内容
