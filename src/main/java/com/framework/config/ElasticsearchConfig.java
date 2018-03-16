@@ -9,9 +9,12 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.AsyncConfigurer;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 /**
@@ -19,7 +22,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
  * @author yuan
  */
 @Configuration
-public class ElasticsearchConfig {
+@EnableAsync
+public class ElasticsearchConfig implements AsyncConfigurer{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ElasticsearchConfig.class);
     /**
@@ -70,14 +74,22 @@ public class ElasticsearchConfig {
         return transportClient;
     }
     
+    @Override
     @Bean
     public Executor getAsyncExecutor() {
          ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
             taskExecutor.setCorePoolSize(5);
             taskExecutor.setMaxPoolSize(10);
-            taskExecutor.setQueueCapacity(25);
+            taskExecutor.setQueueCapacity(1000);
             taskExecutor.initialize();
+            
             return taskExecutor;
     }
+
+	@Override
+	public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
