@@ -1,4 +1,4 @@
-package com.framework.modules.fulltext;
+package com.framework.modules.fulltext.entity;
 
 import com.framework.common.fulltext.BaseDoc;
 import com.framework.common.fulltext.attachment.Attachment;

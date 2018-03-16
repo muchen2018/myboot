@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import com.framework.common.fulltext.ElasticSearchHandler;
 import com.framework.common.fulltext.attachment.Attachment;
 import com.framework.common.fulltext.attachment.AttachmentProcessor;
-import com.framework.modules.fulltext.DiskDoc;
+import com.framework.modules.fulltext.entity.DiskDoc;
 
 @Component
 public class Receiver {
