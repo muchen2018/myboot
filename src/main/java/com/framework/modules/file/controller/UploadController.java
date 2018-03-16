@@ -6,11 +6,17 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.tomcat.util.bcel.Const;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.framework.common.utils.R;
 import com.framework.modules.file.entity.ChunkFile;
@@ -38,16 +46,16 @@ import io.swagger.annotations.ApiParam;
 public class UploadController {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
-	
+
 	@Autowired
 	private FastFileStorageClient storageClient;
 
 	@Autowired
 	private FileStorageService fileService;
-	
+
 	@Value("${fdfs.base-url}")
 	private String baseUrl;
-	
+
 	@Value("${fdfs.secret-key}")
 	private String secretKey;
 
@@ -92,16 +100,16 @@ public class UploadController {
 	public R upload(ChunkFile fileUpload) {
 
 		try {
-			boolean chunked= fileUpload.isChunked();
-			
-			//if(chunked) {
-				fileService.saveChunk(fileUpload);
-			//}else {
-			//	StorePath sp=fileService.saveFile(fileUpload);
-				
-			//	return R.ok().put("storePath", sp);
-			//}
-			
+			boolean chunked = fileUpload.isChunked();
+
+			// if(chunked) {
+			fileService.saveChunk(fileUpload);
+			// }else {
+			// StorePath sp=fileService.saveFile(fileUpload);
+
+			// return R.ok().put("storePath", sp);
+			// }
+
 		} catch (IOException e) {
 			logger.error("FileController saveChunk:", e);
 			return R.error();
@@ -131,70 +139,71 @@ public class UploadController {
 		}
 		return R.ok().put("storePath", sp);
 	}
-	
+
 	/**
-     * 获取访问服务器的token，拼接到地址后面
-     *
-     * @param filepath /M00/00/00/wKgzgFnkTPyAIAUGAAEoRmXZPp876.jpeg
-     * @param httpSecretKey 密钥
-     * @return 返回token，如： token=078d370098b03e9020b82c829c205e1f&ts=1508141521
-     */
+	 * 获取访问服务器的token，拼接到地址后面
+	 *
+	 * @param filepath
+	 *            /M00/00/00/wKgzgFnkTPyAIAUGAAEoRmXZPp876.jpeg
+	 * @param httpSecretKey
+	 *            密钥
+	 * @return 返回token，如： token=078d370098b03e9020b82c829c205e1f&ts=1508141521
+	 */
 	@ApiOperation("获取访问路径")
-	@RequestMapping(value="/getUrl",method=RequestMethod.GET)
-    public String getToken(
-    		@RequestParam(required = true) @ApiParam("分组")String groupName,
-    		@RequestParam(required = true) @ApiParam("文件路径")String filepath){
-        // unix seconds
-        int ts = (int) Instant.now().getEpochSecond();
-        // token
-        String token = "null";
-        try {
-            token = ProtoCommon.getToken(filepath, ts,secretKey);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(baseUrl);
-        sb.append(groupName);
-        sb.append("/");
-        sb.append(filepath);
-        sb.append("?token=").append(token);
-        sb.append("&ts=").append(ts);
-
-        return sb.toString();
-    }
-	
-	@RequestMapping(value="/download",method=RequestMethod.GET)
-	public void download(String group,String path,String fileName,HttpServletResponse response) {
-		
-		response.reset();  
+	@RequestMapping(value = "/getUrl", method = RequestMethod.GET)
+	public String getToken(@RequestParam(required = true) @ApiParam("分组") String groupName,
+			@RequestParam(required = true) @ApiParam("文件路径") String filepath) {
+		// unix seconds
+		int ts = (int) Instant.now().getEpochSecond();
+		// token
+		String token = "null";
 		try {
-			fileName=URLEncoder.encode(fileName, "UTF-8");
+			token = ProtoCommon.getToken(filepath, ts, secretKey);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(baseUrl);
+		sb.append(groupName);
+		sb.append("/");
+		sb.append(filepath);
+		sb.append("?token=").append(token);
+		sb.append("&ts=").append(ts);
+
+		return sb.toString();
+	}
+
+	@RequestMapping(value = "/download", method = RequestMethod.GET)
+	public void download(String group, String path, String fileName, HttpServletResponse response) {
+
+		response.reset();
+		try {
+			fileName = URLEncoder.encode(fileName, "UTF-8");
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
 		}
-		response.setHeader("Content-Disposition", "attachment;filename="+fileName);
-		response.setHeader("Connection", "close");  
+		response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+		response.setHeader("Connection", "close");
 		response.setHeader("Content-Type", "application/octet-stream");
-		
-		OutputStream out=null;
-		
+
+		OutputStream out = null;
+
 		try {
-			byte[] file=storageClient.downloadFile(group,path, new DownloadCallback<byte[]>() {
+			byte[] file = storageClient.downloadFile(group, path, new DownloadCallback<byte[]>() {
 				@Override
 				public byte[] recv(InputStream ins) throws IOException {
 					return IOUtils.toByteArray(ins);
 				}
 			});
-			 out= response.getOutputStream();
+			out = response.getOutputStream();
 			out.write(file);
 			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			try {
 				out.close();
 			} catch (IOException e) {

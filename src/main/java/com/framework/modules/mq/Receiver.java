@@ -17,7 +17,7 @@ public class Receiver {
 	
 	@RabbitListener(queues = "hello.queue1")
 	public void processMessage1(String msg) {
-		System.out.println(Thread.currentThread().getName() + "--------->" + msg);
+		System.out.println(Thread.currentThread().getName() + "--- 接受到------>" + msg);
 		try {
 			String id=UUID.randomUUID().toString();
 			DiskDoc template=new DiskDoc();
@@ -38,7 +38,7 @@ public class Receiver {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println(Thread.currentThread().getName() + " 接收到来自hello.queue1队列的消息：" + msg);
+		System.out.println(Thread.currentThread().getName() + "-----完成处理------->" + msg);
 	}
 
 }
