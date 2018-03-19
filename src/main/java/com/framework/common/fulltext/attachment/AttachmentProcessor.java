@@ -40,7 +40,7 @@ public class AttachmentProcessor {
 		Parser parser = new AutoDetectParser();
 		Metadata metadata = new Metadata();
 
-		ContentHandler handler = new BodyContentHandler();
+		ContentHandler handler = new BodyContentHandler(-1);
 		ParseContext context = new ParseContext();
 		context.set(Parser.class, parser);
 		parser.parse(is, handler, metadata, context);
