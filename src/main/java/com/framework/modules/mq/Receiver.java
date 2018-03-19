@@ -27,8 +27,8 @@ public class Receiver {
 			template.setUrl("group1/M00/xxx/xxx2");
 			template.setPath("我的文档/我的测试文档");
 			
-			if("pdf".equals(msg)) {
-				File f=new File("C:\\Users\\26371\\Desktop\\Spring Cloud微服务实战_PDF电子书下载 高清 带索引书签目录_翟永超(著)  @www.java1234.com.pdf");
+			if("docx".equals(msg)) {
+				File f=new File("C:\\Users\\26371\\Desktop\\苏州工业园区政务通技术架构管理及应用插件开发规范接口规范V2.1.docx");
 				FileInputStream in=new FileInputStream(f);
 				Attachment att = AttachmentProcessor.parse(in);
 				template.setAttachment(att);

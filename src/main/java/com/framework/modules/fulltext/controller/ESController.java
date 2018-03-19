@@ -1,6 +1,7 @@
 package com.framework.modules.fulltext.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,9 +57,12 @@ public class ESController {
 			list.add(searchHit.getSource());
 		}
 		
+		Map<String, Object> map = new HashMap<String, Object>(8);
 		
+		map.put("count", hits.totalHits);
+		map.put("hits", list);
 		
- 		return R.ok().put("count", hits.totalHits).put("data",list);
+ 		return R.ok().put("data",map);
 	}
 	
 	@RequestMapping(value = "/getById", method = RequestMethod.GET)

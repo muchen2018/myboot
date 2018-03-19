@@ -28,7 +28,7 @@ import com.framework.modules.fulltext.entity.DiskDoc;
 @SpringBootTest
 public class ESTest {
 
-	@Test
+	//@Test
 	public void addDoc() throws SAXException, TikaException, Exception {
 		
 		String id=UUID.randomUUID().toString();
@@ -62,7 +62,7 @@ public class ESTest {
 		ElasticSearchHandler.addDoc(ElasticSearchHandler.DEFAULT_INDEX,ElasticSearchHandler.DEFAULT_TYPE,template);
 	}
 	
-	@Test
+	//@Test
 	public void addDocBulk() {
 		
 		List<DiskDoc> list=new ArrayList<>();

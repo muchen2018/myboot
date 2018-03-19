@@ -25,14 +25,14 @@ public class MqTest {
 
 	@Test
 	public void send() {
-		sender.send(RabbitConfig.TOPIC_EXCHANGE, RabbitConfig.ROUTING_KEY, "test2");
+		/*sender.send(RabbitConfig.TOPIC_EXCHANGE, RabbitConfig.ROUTING_KEY, "test2");
 
 		try {
 			Thread.sleep(100000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 	public static void main(String[] aa) {
