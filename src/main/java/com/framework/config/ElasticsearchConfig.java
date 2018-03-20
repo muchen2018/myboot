@@ -27,7 +27,7 @@ public class ElasticsearchConfig implements AsyncConfigurer{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ElasticsearchConfig.class);
     /**
-     * elk集群地址
+     * el集群地址
      */
     @Value("${elasticsearch.ip}")
     private String hostName;

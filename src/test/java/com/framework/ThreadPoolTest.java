@@ -25,6 +25,8 @@ public class ThreadPoolTest {
 			executor.execute(new SpringThread(i));
 		}
 		 System.out.println("main process is finish .....");
+		 
+		 Thread.sleep(100000);
 	}
 	
 }
