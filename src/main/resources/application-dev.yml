@@ -40,8 +40,8 @@ spring:
         mandatory: true
       listener: 
         simple:
-          concurrency: 2  #最小消息监听线程数
-          max-concurrency: 2 #最大消息监听线程数
+          concurrency: 5  #最小消息监听线程数
+          max-concurrency: 20 #最大消息监听线程数
 fdfs:
   base-url: http://192.168.20.26/
   secret-key: FastDFS1234567890

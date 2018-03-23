@@ -29,4 +29,6 @@ public class ThreadPoolTest {
 		 Thread.sleep(100000);
 	}
 	
+	public static void main(String [] a ) {
+	}
 }

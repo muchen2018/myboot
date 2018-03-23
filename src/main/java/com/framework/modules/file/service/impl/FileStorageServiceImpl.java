@@ -85,8 +85,6 @@ public class FileStorageServiceImpl implements FileStorageService {
 
 		MultipartFile file = fileUpload.getFile();
 		
-		System.out.println(Base64.encodeBase64String(file.getBytes()));
-
 		int chunk = fileUpload.getChunk();
 
 		File folder = new File(redisUtils.get(fileUpload.getFileMd5()));

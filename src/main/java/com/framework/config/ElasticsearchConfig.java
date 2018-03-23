@@ -80,7 +80,6 @@ public class ElasticsearchConfig implements AsyncConfigurer{
          ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
             taskExecutor.setCorePoolSize(5);
             taskExecutor.setMaxPoolSize(10);
-            taskExecutor.setQueueCapacity(1000);
             taskExecutor.initialize();
             
             return taskExecutor;
