@@ -107,6 +107,7 @@ public class SensitiveWordInit {
 		
 		File file = new File("C:\\Users\\26371\\Desktop\\CensorWords.txt");    //读取文件
 		InputStreamReader read = new InputStreamReader(new FileInputStream(file),ENCODING);
+		
 		try {
 			if(file.isFile() && file.exists()){      //文件流是否存在
 				set = new HashSet<String>();
@@ -115,8 +116,7 @@ public class SensitiveWordInit {
 				while((txt = bufferedReader.readLine()) != null){    //读取文件，将文件内容放入到set中
 					set.add(txt);
 			    }
-			}
-			else{         //不存在抛出异常信息
+			}else{         //不存在抛出异常信息
 				throw new Exception("敏感词库文件不存在");
 			}
 		} catch (Exception e) {
