@@ -1,4 +1,4 @@
-package com.framework.xx.threadtest.waitnotiy;
+package com.framework.xx.threadtest.waitnotify;
 
 public class Test {
 	

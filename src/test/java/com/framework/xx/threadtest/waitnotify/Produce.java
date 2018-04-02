@@ -1,4 +1,4 @@
-package com.framework.xx.threadtest.waitnotiy;
+package com.framework.xx.threadtest.waitnotify;
 
 public class Produce extends Thread{
 	
@@ -13,7 +13,7 @@ public class Produce extends Thread{
 	public void run() {
 		while (true) {
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
