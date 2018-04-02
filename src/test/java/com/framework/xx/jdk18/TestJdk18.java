@@ -1,4 +1,4 @@
-package com.framework.jdk18;
+package com.framework.xx.jdk18;
 
 public class TestJdk18 implements InterFace1,InterFace2{
 

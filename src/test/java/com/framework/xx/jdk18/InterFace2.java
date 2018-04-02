@@ -1,4 +1,4 @@
-package com.framework.jdk18;
+package com.framework.xx.jdk18;
 
 public interface InterFace2 {
 	
