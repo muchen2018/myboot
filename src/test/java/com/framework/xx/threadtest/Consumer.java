@@ -2,28 +2,36 @@ package com.framework.xx.threadtest;
 
 public class Consumer implements Runnable{
 	
+	private Model model;
+	
+	public Consumer(Model model) {
+		this.model=model;
+	}
+	
 	@Override
 	public void run() {
-		synchronized (this) {
+		try {
+			cons(model);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public synchronized void  cons(Model model) throws InterruptedException {
+		
+		while(true) {
 			
-			try {
-				Thread.sleep(5000);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			Thread.sleep(1000);
 			
-			if(Model.currentCount>0) {
-				
-				Model.currentCount--;
-				System.out.println("消费者消费:"+Model.currentCount);
-				notifyAll();
+			if(model.currentCount>0) {
+				model.currentCount--;
+				System.out.println("消费者消费:"+model.currentCount);
+				model.notifyAll();
 			}else {
-				System.out.println("消费者等待:"+Model.currentCount);
+				System.out.println("消费者等待:"+model.currentCount);
 				try {
-					wait();
+					model.wait();
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}	
