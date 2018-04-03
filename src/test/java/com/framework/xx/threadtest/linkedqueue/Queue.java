@@ -1,27 +1,39 @@
 package com.framework.xx.threadtest.linkedqueue;
 
 public class Queue {
-	
-	public Node head;
-	
-	public Node tail;
-	
-	public void add(Node node) {
-		
-		if(head==null) {
-			head=node;
-		}else {
-			tail.next=node;
+
+	class Node {
+
+		public Object data;
+
+		public Node next;
+
+		public Node(Object obj) {
+			this.data = obj;
 		}
-		tail=node;
+
+	}
+
+	public Node head;
+
+	public Node tail;
+
+	public void add(Node node) {
+
+		if (head == null) {
+			head = node;
+		} else {
+			tail.next = node;
+		}
+		tail = node;
 	}
 	
 	public Object take() {
-		if(head==null) {
+		
+		if(head == null) {
 			System.out.println("empty");
 			return null;
 		}else {
-			
 			Node tmp=head;
 			
 			head=head.next;
@@ -32,29 +44,29 @@ public class Queue {
 	
 	public void display() {
 		
-		Node n=this.head;
+		Node node=head;
 		
-		while(n!=null) {
-			System.out.println(n.data);
-			n=n.next;
+		while(node !=null) {
+			System.out.println(node.data);
+			node=node.next;
 		}
-		
 	}
 	
 	public static void main(String [] a) {
 		
 		Queue q=new Queue();
 		
-		q.add(new Node(1));
-		q.add(new Node(2));
-		q.add(new Node(3));
+		q.display();
+		
+		q.add( q.new Node(1));
+		q.add(q.new Node(2));
 		
 		q.display();
 		
 		q.take();
-		q.take();
 		
 		q.display();
+		
 		
 	}
 
