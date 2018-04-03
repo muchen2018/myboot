@@ -1,5 +1,6 @@
 package com.framework.xx.threadtest.arrayqueue;
 
+//目的是当head=tail的时候。通过size=0还是size=数组长度。来区分队列为空，或者队列已满。
 public class QueueArray {
 	Object[] a; // 对象数组，队列最多存储a.length-1个对象
 	int head; // 队首下标
