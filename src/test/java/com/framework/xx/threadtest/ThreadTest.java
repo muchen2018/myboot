@@ -7,9 +7,9 @@ package com.framework.xx.threadtest;
  */
 public class ThreadTest implements Runnable {
 
-	private static volatile int a = 0;
+	private static int a = 0;
 
-	public static void add() {
+	public static synchronized void add() {
 		a++;
 	}
 
@@ -28,8 +28,8 @@ public class ThreadTest implements Runnable {
 
 		for (int i = 0; i < 10; i++) {
 			Thread t= new Thread(tt);
+			
 			t.setName("ThreadName"+i);
-			t.start();
 			
 		}
 		
