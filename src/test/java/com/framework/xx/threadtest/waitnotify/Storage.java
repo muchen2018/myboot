@@ -5,10 +5,9 @@ public class Storage {
 	public static final int count=10;
 	
 	private int current=0;
-	
-	public synchronized void pop() {
+		public synchronized void pop() {
 		
-		while(current==count) {
+		while(current>=count) {
 			try {
 				wait();
 				System.out.println("产品已满,请稍候再生产");

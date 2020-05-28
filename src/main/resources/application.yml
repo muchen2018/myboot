@@ -23,7 +23,10 @@ spring:
             enabled: true
     resources: # 指定静态资源的路径
         static-locations: classpath:/static/,classpath:/views/,classpath:/META-INF/resources/
-        
+    mvc:
+      view:
+        suffix: .html
+        prefix: /views/
     redis:
         database: 0
         host: 192.168.20.26

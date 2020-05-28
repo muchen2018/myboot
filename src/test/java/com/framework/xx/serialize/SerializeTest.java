@@ -50,14 +50,16 @@ public class SerializeTest {
 		
 		FileInputStream fis=new FileInputStream("D:\\user.txt");
 		
-		ObjectInputStream ois=new ObjectInputStream(fis);
+		try(ObjectInputStream ois=new ObjectInputStream(fis)){
+		    User user=(User)ois.readObject();
+	        System.out.println("password:"+user.getPassword());
+	        System.out.println("username:"+user.getUsername());
+	        System.out.println("sex:"+user.getSex());
+	        System.out.println("static:"+BaseUser.type);
+		}
 		
-		User user=(User)ois.readObject();
 		
-		System.out.println("password:"+user.getPassword());
-		System.out.println("username:"+user.getUsername());
-		System.out.println("sex:"+user.getSex());
-		System.out.println("static:"+BaseUser.type);
+		
 	}
 
 }
